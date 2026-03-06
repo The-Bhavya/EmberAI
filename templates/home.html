@@ -1,73 +1,1026 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Green Guard Prediction - AI-Powered Environmental Monitoring</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lumina — Intelligence Redefined</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
     <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --ink: #0d0d12;
+            --cream: #f5f0e8;
+            --gold: #c8a96e;
+            --gold-lt: #e2cfa0;
+            --teal: #1a7f74;
+            --teal-lt: #2ab5a7;
+            --rust: #c4522a;
+            --mist: #e8ede9;
+            --glass: rgba(255, 255, 255, 0.06);
+            --border: rgba(200, 169, 110, 0.25);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            font-family: 'DM Sans', sans-serif;
+            background: var(--ink);
+            color: var(--cream);
+            overflow-x: hidden;
         }
-        .green-gradient {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+
+        /* ─── NAV ─────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.4rem 5%;
+            background: rgba(13, 13, 18, 0.6);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
         }
-        .text-gradient {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.7rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            background: linear-gradient(135deg, var(--gold), var(--gold-lt));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
-        .card-shadow {
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+        .nav-links {
+            display: flex;
+            gap: 2.4rem;
+            list-style: none;
         }
-        .card-hover {
-            transition: all 0.3s ease;
+
+        .nav-links a {
+            font-size: 0.82rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(245, 240, 232, 0.6);
+            text-decoration: none;
+            transition: color .25s;
         }
-        .card-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+        .nav-links a:hover {
+            color: var(--gold);
         }
-        .btn-primary {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            transition: all 0.2s ease;
+
+        .nav-cta {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            padding: 0.6rem 1.4rem;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            background: transparent;
+            border-radius: 2px;
+            cursor: pointer;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: background .25s, color .25s;
         }
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 20px rgba(17, 153, 142, 0.3);
+
+        .nav-cta:hover {
+            background: var(--gold);
+            color: var(--ink);
         }
-        .animate-fade-in {
-            animation: fadeIn 0.5s ease-out;
+
+        /* ─── HERO ────────────────────────────────── */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 7rem 5% 5rem;
+            position: relative;
+            overflow: hidden;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+
         .hero-bg {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-        }
-        /* New hero background image with blur */
-        .hero-img { position: relative; }
-        .hero-img .bg-media {
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=1600&q=80');
-            background-size: cover;
-            background-position: center;
-            filter: blur(6px);
-            transform: scale(1.05);
+            inset: 0;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 0%, rgba(26, 127, 116, 0.18) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(200, 169, 110, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 10% 70%, rgba(196, 82, 42, 0.08) 0%, transparent 60%);
         }
-        .hero-img .bg-overlay {
+
+        .hero-grid {
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(200, 169, 110, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200, 169, 110, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
         }
-        
+
+        .eyebrow {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--teal-lt);
+            margin-bottom: 1.4rem;
+            position: relative;
+            z-index: 1;
+            animation: fadeUp .8s ease both;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3.2rem, 8vw, 7.5rem);
+            font-weight: 300;
+            line-height: 1.05;
+            letter-spacing: -0.01em;
+            max-width: 900px;
+            position: relative;
+            z-index: 1;
+            animation: fadeUp .8s .15s ease both;
+        }
+
+        h1 em {
+            font-style: italic;
+            background: linear-gradient(135deg, var(--gold), var(--rust));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-sub {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: rgba(245, 240, 232, 0.62);
+            line-height: 1.75;
+            max-width: 540px;
+            margin-top: 1.8rem;
+            position: relative;
+            z-index: 1;
+            animation: fadeUp .8s .3s ease both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2.8rem;
+            position: relative;
+            z-index: 1;
+            animation: fadeUp .8s .45s ease both;
+        }
+
+        .btn-primary {
+            padding: 0.9rem 2.2rem;
+            border: none;
+            border-radius: 2px;
+            background: linear-gradient(135deg, var(--teal), var(--teal-lt));
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            transition: opacity .25s, transform .25s;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.88;
+            transform: translateY(-2px);
+        }
+
+        .btn-ghost {
+            padding: 0.9rem 2.2rem;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            background: transparent;
+            color: var(--cream);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: border-color .25s, transform .25s;
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--gold-lt);
+            transform: translateY(-2px);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 5rem;
+            position: relative;
+            z-index: 1;
+            animation: fadeUp .8s .6s ease both;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.6rem;
+            font-weight: 600;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(245, 240, 232, 0.45);
+            margin-top: 0.3rem;
+        }
+
+        /* ─── SECTION SHARED ──────────────────────── */
+        section {
+            padding: 7rem 5%;
+        }
+
+        .section-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--teal-lt);
+            margin-bottom: 0.8rem;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+            font-weight: 300;
+            line-height: 1.15;
+        }
+
+        .section-title strong {
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        .section-sub {
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: rgba(245, 240, 232, 0.55);
+            max-width: 500px;
+            margin-top: 1rem;
+        }
+
+        /* ─── FEATURES ────────────────────────────── */
+        #features {
+            background: var(--ink);
+        }
+
+        .features-header {
+            margin-bottom: 4rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5px;
+        }
+
+        .feat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            padding: 2.8rem 2.4rem;
+            position: relative;
+            overflow: hidden;
+            transition: background .35s, transform .35s;
+            cursor: default;
+        }
+
+        .feat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--teal-lt), transparent);
+            opacity: 0;
+            transition: opacity .35s;
+        }
+
+        .feat-card:hover {
+            background: rgba(26, 127, 116, 0.07);
+            transform: translateY(-4px);
+        }
+
+        .feat-card:hover::before {
+            opacity: 1;
+        }
+
+        .feat-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 2px;
+            margin-bottom: 1.8rem;
+            filter: saturate(0.8) brightness(0.85);
+            transition: filter .35s;
+        }
+
+        .feat-card:hover .feat-img {
+            filter: saturate(1) brightness(0.95);
+        }
+
+        .feat-icon {
+            width: 44px;
+            height: 44px;
+            margin-bottom: 1.4rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .icon-teal {
+            background: rgba(26, 127, 116, 0.2);
+        }
+
+        .icon-gold {
+            background: rgba(200, 169, 110, 0.2);
+        }
+
+        .icon-rust {
+            background: rgba(196, 82, 42, 0.2);
+        }
+
+        .feat-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.55rem;
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+        }
+
+        .feat-card p {
+            font-size: 0.9rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: rgba(245, 240, 232, 0.55);
+        }
+
+        .feat-tag {
+            display: inline-block;
+            margin-top: 1.4rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 0.3rem 0.7rem;
+            border-radius: 2px;
+        }
+
+        .tag-teal {
+            background: rgba(26, 127, 116, 0.15);
+            color: var(--teal-lt);
+        }
+
+        .tag-gold {
+            background: rgba(200, 169, 110, 0.15);
+            color: var(--gold);
+        }
+
+        .tag-rust {
+            background: rgba(196, 82, 42, 0.15);
+            color: #e07050;
+        }
+
+        /* ─── HOW IT WORKS ────────────────────────── */
+        #how {
+            background: linear-gradient(135deg, rgba(13, 13, 18, 1) 0%, rgba(14, 22, 20, 1) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #how::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(26, 127, 116, 0.1) 0%, transparent 70%);
+        }
+
+        .how-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .steps {
+            margin-top: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .step {
+            display: flex;
+            gap: 1.6rem;
+            align-items: flex-start;
+            padding: 2rem 0;
+            border-bottom: 1px solid rgba(200, 169, 110, 0.1);
+            transition: padding .3s;
+            cursor: default;
+        }
+
+        .step:first-child {
+            border-top: 1px solid rgba(200, 169, 110, 0.1);
+        }
+
+        .step-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.4rem;
+            font-weight: 300;
+            color: var(--border);
+            min-width: 52px;
+            line-height: 1;
+            transition: color .3s;
+        }
+
+        .step:hover .step-num {
+            color: var(--gold);
+        }
+
+        .step-content h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 0.4rem;
+        }
+
+        .step-content p {
+            font-size: 0.88rem;
+            line-height: 1.75;
+            font-weight: 300;
+            color: rgba(245, 240, 232, 0.5);
+        }
+
+        .how-visual {
+            position: relative;
+            height: 520px;
+        }
+
+        .vis-card {
+            position: absolute;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .vis-main {
+            width: 75%;
+            height: 340px;
+            top: 0;
+            right: 0;
+            background: linear-gradient(135deg, rgba(26, 127, 116, 0.15), rgba(13, 13, 18, 0.9));
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.8rem;
+        }
+
+        .vis-main img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.25;
+        }
+
+        .vis-accent {
+            width: 55%;
+            height: 200px;
+            bottom: 0;
+            left: 0;
+            background: rgba(200, 169, 110, 0.08);
+            backdrop-filter: blur(4px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 1.6rem;
+        }
+
+        .vis-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--teal-lt);
+            margin-bottom: 0.5rem;
+        }
+
+        .vis-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.6rem;
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        .vis-sub {
+            font-size: 0.78rem;
+            color: rgba(245, 240, 232, 0.4);
+            margin-top: 0.3rem;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--teal-lt);
+            display: inline-block;
+            margin-right: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        /* ─── APPLICATIONS ────────────────────────── */
+        #apps {
+            background: var(--ink);
+        }
+
+        .apps-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 3.5rem;
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+
+        .app-card {
+            background: var(--ink);
+            padding: 2.2rem 1.6rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1.2rem;
+            transition: background .3s;
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0;
+            transition: opacity .35s;
+        }
+
+        .app-card:hover {
+            background: rgba(200, 169, 110, 0.04);
+        }
+
+        .app-card:hover::after {
+            opacity: 1;
+        }
+
+        .app-icon-wrap {
+            width: 52px;
+            height: 52px;
+            flex-shrink: 0;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            background: rgba(255, 255, 255, 0.03);
+            transition: border-color .3s;
+        }
+
+        .app-card:hover .app-icon-wrap {
+            border-color: var(--gold);
+        }
+
+        .app-card h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .app-card p {
+            font-size: 0.87rem;
+            font-weight: 300;
+            line-height: 1.75;
+            color: rgba(245, 240, 232, 0.5);
+        }
+
+        .app-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 1rem;
+            font-size: 0.78rem;
+            color: var(--teal-lt);
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: gap .25s;
+        }
+
+        .app-link:hover {
+            gap: 0.7rem;
+        }
+
+        /* ─── FOOTER ──────────────────────────────── */
+        footer {
+            padding: 3rem 5%;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        footer p {
+            font-size: 0.8rem;
+            color: rgba(245, 240, 232, 0.3);
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: var(--gold-lt);
+            opacity: 0.6;
+        }
+
+        /* ─── ANIMATIONS ──────────────────────────── */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: scale(1.4);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+
+        .revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ─── RESPONSIVE ──────────────────────────── */
+        @media (max-width: 900px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .how-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .how-visual {
+                display: none;
+            }
+
+            .apps-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .apps-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .hero-stats {
+                flex-wrap: wrap;
+                gap: 1.5rem;
+            }
+        }
     </style>
 </head>
-<body class="scroll-smooth">
-    
-    
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="logo">Lumina</div>
+        <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how">How It Works</a></li>
+            <li><a href="#apps">Applications</a></li>
+        </ul>
+        <button class="nav-cta">Get Started</button>
+    </nav>
+
+    <!-- ══════════ HERO ══════════ -->
+    <section id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-grid"></div>
+
+        <p class="eyebrow">◆ Next-Generation Intelligence Platform</p>
+        <h1>Intelligence that<br /><em>evolves</em> with you</h1>
+        <p class="hero-sub">Lumina unifies real-time data processing, adaptive machine learning, and precision analytics
+            — delivering clarity where complexity once reigned.</p>
+
+        <div class="hero-cta">
+            <button class="btn-primary">Start Free Trial</button>
+            <button class="btn-ghost">Watch Demo →</button>
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-num">98.6%</div>
+                <div class="stat-label">Accuracy Rate</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">3.2ms</div>
+                <div class="stat-label">Avg Response</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">40K+</div>
+                <div class="stat-label">Active Teams</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">SOC2</div>
+                <div class="stat-label">Compliant</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ FEATURES ══════════ -->
+    <section id="features">
+        <div class="features-header reveal">
+            <p class="section-label">Core Capabilities</p>
+            <h2 class="section-title">Built for the <strong>relentless</strong></h2>
+            <p class="section-sub">Three foundational pillars that separate Lumina from everything else on the market.
+            </p>
+        </div>
+
+        <div class="cards-grid">
+
+            <div class="feat-card reveal">
+                <img class="feat-img" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80"
+                    alt="Neural processing visualization" />
+                <div class="feat-icon icon-teal">🧠</div>
+                <h3>Adaptive Neural Core</h3>
+                <p>Our proprietary engine continuously re-trains on your domain data, narrowing its focus over time to
+                    deliver hyper-relevant outputs — not generic predictions.</p>
+                <span class="feat-tag tag-teal">Self-learning</span>
+            </div>
+
+            <div class="feat-card reveal" style="transition-delay:.12s">
+                <img class="feat-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80"
+                    alt="Real-time analytics dashboard" />
+                <div class="feat-icon icon-gold">⚡</div>
+                <h3>Real-Time Signal Engine</h3>
+                <p>Process millions of live data streams simultaneously. Our sub-5ms pipeline surfaces anomalies,
+                    trends, and opportunities the moment they emerge.</p>
+                <span class="feat-tag tag-gold">&lt; 5ms latency</span>
+            </div>
+
+            <div class="feat-card reveal" style="transition-delay:.24s">
+                <img class="feat-img" src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&q=80"
+                    alt="Secure integration architecture" />
+                <div class="feat-icon icon-rust">🔐</div>
+                <h3>Zero-Trust Integration</h3>
+                <p>Enterprise-grade security baked in at every layer. Connect to 200+ data sources through encrypted
+                    tunnels without ever exposing raw credentials.</p>
+                <span class="feat-tag tag-rust">SOC2 · ISO 27001</span>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ══════════ HOW IT WORKS ══════════ -->
+    <section id="how">
+        <div class="how-inner">
+
+            <div>
+                <p class="section-label reveal">The Process</p>
+                <h2 class="section-title reveal">From raw data<br />to <strong>decisive action</strong></h2>
+                <p class="section-sub reveal">Four purposeful steps that transform noise into competitive advantage.</p>
+
+                <div class="steps">
+
+                    <div class="step reveal">
+                        <div class="step-num">01</div>
+                        <div class="step-content">
+                            <h4>Connect Your Sources</h4>
+                            <p>Link databases, APIs, cloud warehouses, and real-time streams in minutes using our visual
+                                connector library — no engineering required.</p>
+                        </div>
+                    </div>
+
+                    <div class="step reveal" style="transition-delay:.1s">
+                        <div class="step-num">02</div>
+                        <div class="step-content">
+                            <h4>Model & Enrich</h4>
+                            <p>Lumina automatically maps relationships, cleans anomalies, and enriches records with
+                                third-party context before analysis even begins.</p>
+                        </div>
+                    </div>
+
+                    <div class="step reveal" style="transition-delay:.2s">
+                        <div class="step-num">03</div>
+                        <div class="step-content">
+                            <h4>Detect & Predict</h4>
+                            <p>The adaptive engine runs pattern recognition and forward projection, surfacing leading
+                                indicators tailored to your KPIs and risk appetite.</p>
+                        </div>
+                    </div>
+
+                    <div class="step reveal" style="transition-delay:.3s">
+                        <div class="step-num">04</div>
+                        <div class="step-content">
+                            <h4>Act & Automate</h4>
+                            <p>Trigger workflows, push alerts, or execute decisions automatically — closing the loop
+                                from insight to outcome without human latency.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Visual -->
+            <div class="how-visual reveal">
+                <div class="vis-card vis-main">
+                    <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80"
+                        alt="Data flow" />
+                    <div style="position:relative;z-index:1">
+                        <p class="vis-label"><span class="pulse-dot"></span>Live Processing</p>
+                        <p style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;margin-bottom:.3rem;">12,847
+                            events / sec</p>
+                        <p style="font-size:.8rem;color:rgba(245,240,232,.45);">No dropped signals in the last 30 days
+                        </p>
+                    </div>
+                </div>
+                <div class="vis-card vis-accent">
+                    <p class="vis-label">Confidence Score</p>
+                    <p class="vis-value">97.3%</p>
+                    <p class="vis-sub">↑ 4.1% from last model iteration</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ══════════ APPLICATIONS ══════════ -->
+    <section id="apps">
+        <div class="apps-header">
+            <div class="reveal">
+                <p class="section-label">Use Cases</p>
+                <h2 class="section-title">Where Lumina <strong>thrives</strong></h2>
+            </div>
+            <a href="#"
+                style="font-family:'Space Mono',monospace;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none;"
+                class="reveal">View all applications →</a>
+        </div>
+
+        <div class="apps-grid reveal">
+
+            <div class="app-card">
+                <div class="app-icon-wrap">📈</div>
+                <div>
+                    <h4>Financial Services</h4>
+                    <p>Detect market anomalies, automate compliance checks, and model portfolio risk in real time —
+                        giving trading desks an edge that compounds daily.</p>
+                    <a class="app-link" href="#">Explore →</a>
+                </div>
+            </div>
+
+            <div class="app-card">
+                <div class="app-icon-wrap">🏥</div>
+                <div>
+                    <h4>Healthcare & Life Sciences</h4>
+                    <p>Surface patient risk signals earlier, streamline clinical trial data pipelines, and meet HIPAA
+                        requirements without slowing innovation.</p>
+                    <a class="app-link" href="#">Explore →</a>
+                </div>
+            </div>
+
+            <div class="app-card">
+                <div class="app-icon-wrap">🏭</div>
+                <div>
+                    <h4>Industrial & Manufacturing</h4>
+                    <p>Predict equipment failures before they occur, optimize production scheduling, and reduce
+                        unplanned downtime with sensor-fusion intelligence.</p>
+                    <a class="app-link" href="#">Explore →</a>
+                </div>
+            </div>
+
+            <div class="app-card">
+                <div class="app-icon-wrap">🛒</div>
+                <div>
+                    <h4>Retail & E-Commerce</h4>
+                    <p>Personalize at scale, forecast demand with seasonal precision, and detect fraud patterns across
+                        millions of transactions per hour.</p>
+                    <a class="app-link" href="#">Explore →</a>
+                </div>
+            </div>
+
+            <div class="app-card">
+                <div class="app-icon-wrap">🚀</div>
+                <div>
+                    <h4>Technology & SaaS</h4>
+                    <p>Power product analytics, churn prediction, and infrastructure anomaly detection — all from a
+                        single data layer that grows with your stack.</p>
+                    <a class="app-link" href="#">Explore →</a>
+                </div>
+            </div>
+
+            <div class="app-card">
+                <div class="app-icon-wrap">🌐</div>
+                <div>
+                    <h4>Government & Public Sector</h4>
+                    <p>Enable evidence-based policy, optimize resource allocation, and monitor critical infrastructure
+                        with FedRAMP-ready deployments.</p>
+                    <a class="app-link" href="#">Explore →</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <span class="footer-logo">Lumina</span>
+        <p>© 2026 Lumina Intelligence, Inc. All rights reserved.</p>
+        <p style="font-size:.75rem;color:rgba(245,240,232,.25);font-family:'Space Mono',monospace">v2.4.1</p>
+    </footer>
+
+    <script>
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('revealed');
+                    io.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        reveals.forEach(el => io.observe(el));
+    </script>
+
+</body>
+
+</html>
