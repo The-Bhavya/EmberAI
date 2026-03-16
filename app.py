@@ -4,6 +4,7 @@ import io
 import pandas as pd
 from flask import (Flask, render_template, request,redirect, url_for, flash, session)
 from werkzeug.utils import secure_filename
+from modules.cleaning import handle_missing_values, handle_outliers, remove_duplicates
 from modules.data_loader import load_dataframe, allowed_file
 from modules.data_summary import get_summary
 from modules.eda import generate_visualizations
@@ -41,67 +42,6 @@ def set_df(df: pd.DataFrame):
 @app.route('/', methods=['GET', 'POST'])
 def home():
     return render_template('home.html')
-
-
-@app.route('/upload', methods=['GET', 'POST'])
-def upload():
-    if request.method == 'POST':
-        # Check a file was included in the form
-        if 'dataset' not in request.files:
-            flash('No file part in the request.', 'error')
-            return redirect(url_for('upload'))
-
-        file = request.files['dataset']
-
-        # Check the user actually selected a file
-        if file.filename == '':
-            flash('Please select a file before uploading.', 'error')
-            return redirect(url_for('upload'))
-
-        # 3. Validate extension
-        if not allowed_file(file.filename):
-            flash('Unsupported file format. Please upload CSV, Excel, JSON, XML or HTML.', 'error')
-            return redirect(url_for('upload'))
-
-        # 4. Save the file safely
-        filename = secure_filename(file.filename)
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(filepath)
-
-        # 5. Parse the file into a DataFrame (MODULE 3)
-        try:
-            df = load_dataframe(filepath)
-        except Exception as e:
-            flash(f'Could not read file: {e}', 'error')
-            return redirect(url_for('upload'))
-
-        set_df(df)
-        session['filename'] = filename
-        flash(f'"{filename}" uploaded successfully — {df.shape[0]} rows × {df.shape[1]} columns.', 'success')
-        return redirect(url_for('summary'))
-
-    return render_template('upload.html')
-
-@app.route('/summary')
-def summary():
-    df = get_df()
-    if df is None:
-        flash('Please upload a dataset first.', 'error')
-        return redirect(url_for('upload'))
-    summary_data = get_summary(df)
-    filename = session.get('filename', 'dataset')
-    return render_template('summary.html', summary=summary_data,filename=filename)
-
-
-@app.route('/eda')
-def eda():
-    df = get_df()
-    if df is None:
-        flash('Please upload a dataset first.', 'error')
-        return redirect(url_for('upload'))
-    plots = generate_visualizations(df)
-    filename = session.get('filename', 'dataset')
-    return render_template('eda.html', plots=plots, filename=filename)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -166,6 +106,101 @@ def login():
         else:
             flash("Invalid email or password.",'error')
     return render_template('login.html')
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        # Check a file was included in the form
+        if 'dataset' not in request.files:
+            flash('No file part in the request.', 'error')
+            return redirect(url_for('upload'))
+
+        file = request.files['dataset']
+
+        # Check the user actually selected a file
+        if file.filename == '':
+            flash('Please select a file before uploading.', 'error')
+            return redirect(url_for('upload'))
+
+        # 3. Validate extension
+        if not allowed_file(file.filename):
+            flash('Unsupported file format. Please upload CSV, Excel, JSON, XML or HTML.', 'error')
+            return redirect(url_for('upload'))
+
+        # 4. Save the file safely
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+
+        # 5. Parse the file into a DataFrame (MODULE 3)
+        try:
+            df = load_dataframe(filepath)
+        except Exception as e:
+            flash(f'Could not read file: {e}', 'error')
+            return redirect(url_for('upload'))
+
+        set_df(df)
+        session['filename'] = filename
+        flash(f'"{filename}" uploaded successfully — {df.shape[0]} rows × {df.shape[1]} columns.', 'success')
+        return redirect(url_for('summary'))
+
+    return render_template('upload.html')
+
+@app.route('/summary')
+def summary():
+    df = get_df()
+    if df is None:
+        flash('Please upload a dataset first.', 'error')
+        return redirect(url_for('upload'))
+    summary_data = get_summary(df)
+    filename = session.get('filename', 'dataset')
+    return render_template('summary.html', summary=summary_data,filename=filename)
+
+
+@app.route('/eda')
+def eda():
+    df = get_df()
+    if df is None:
+        flash('Please upload a dataset first.', 'error')
+        return redirect(url_for('upload'))
+    plots = generate_visualizations(df)
+    filename = session.get('filename', 'dataset')
+    return render_template('eda.html', plots=plots, filename=filename)
+
+
+@app.route('/cleaning', methods=['GET', 'POST'])
+def cleaning():
+    df = get_df()
+    if df is None:
+        flash('Please upload a dataset first.', 'error')
+        return redirect(url_for('upload'))
+    if request.method == 'POST':
+        action = request.form.get('action')
+        strategy = request.form.get('strategy', '')
+        try:
+            if action == 'impute':
+                df_cleaned = handle_missing_values(df, strategy=strategy)
+                set_df(df_cleaned)
+                flash(f' Missing values handled using "{strategy}" strategy.', 'success')
+            elif action == 'outliers':
+                df_cleaned = handle_outliers(df, strategy=strategy)
+                set_df(df_cleaned)
+                flash(f'  Outliers handled using "{strategy}" strategy.', 'success')
+            elif action == 'duplicates':
+                df_cleaned = remove_duplicates(df)
+                set_df(df_cleaned)
+                flash(f' Duplicate rows removed.', 'success')
+            elif action == 'fix_inconsistent':
+                df_cleaned = fix_inconsistencies(df)
+                set_df(df_cleaned)
+                flash(f' Basic string inconsistencies fixed.', 'success')
+        except Exception as e:
+            flash(f'Error during cleaning: {e}', 'error')
+        return redirect(url_for('cleaning'))
+    missing_stats = get_missing_stats(df)
+    outlier_stats = detect_outliers(df)
+    duplicate_count = int(df.duplicated().sum())
+    return render_template('cleaning.html',missing_stats=missing_stats,outlier_stats=outlier_stats,duplicate_count=duplicate_count)
 
 if __name__ == '__main__':
     app.run(debug=True)
