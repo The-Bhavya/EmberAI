@@ -7,6 +7,7 @@ from werkzeug.utils import secure_filename
 from modules.data_loader import load_dataframe, allowed_file
 from modules.data_summary import get_summary
 from modules.eda import generate_visualizations
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.secret_key = 'mlreadyai_secret_2025' # needed for flash & session
@@ -33,8 +34,8 @@ def set_df(df: pd.DataFrame):
 #     email = db.Column(db.String(100), unique=True)
 #     password = db.Column(db.String(100))
 # # Database initialization with app context
-# with app.app_context():
-#     db.create_all()
+#     with app.app_context():
+#         db.create_all()
 
 
 @app.route('/', methods=['GET', 'POST'])
