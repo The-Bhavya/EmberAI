@@ -32,7 +32,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 # Define User model
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
@@ -114,13 +114,23 @@ def login():
         user = User.query.filter_by(email=email).first()
 
         if user and check_password_hash(user.password, password):
+            login_user(user)
             session['user_id'] = user.id
             session['user_name'] = user.name
             flash('Login successful!','success')
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('upload'))
         else:
-            flash("Invalid email or password.",'error')
+            flash('Invalid email or password.', 'error')
     return render_template('login.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    session.pop('user_id', None)
+    session.pop('user_name', None)
+    flash('Logged out successfully.', 'success')
+    return redirect(url_for('login'))
 
 @app.route('/upload', methods=['GET', 'POST'])
 @login_required
