@@ -332,7 +332,6 @@ def export_model():
     except Exception as e:
         flash(f'Error exporting model: {e}', 'error')
         return redirect(url_for('train_model'))
-    
 
 
 
