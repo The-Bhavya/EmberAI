@@ -24,7 +24,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Initialize Flask-Login
-login_manager = LoginManager()
+login_manager = LoginManager() 
 login_manager.init_app(app)
 # Use setattr to avoid static type-checker errors when assigning login_view
 setattr(login_manager, 'login_view', 'login')
